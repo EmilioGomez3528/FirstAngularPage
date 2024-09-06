@@ -13,10 +13,10 @@
     </label>
     <div class="ae-container-fluid rk-topbar">
       <h1 class="rk-logo">
-        <a routerLink="/" href="/">Emilio Protafolio<sup>tm</sup></a></h1>
+        <a routerLink="/"> {{ infoPageService.info.titulo }} </a><sup>tm</sup></h1>
       <nav class="rk-navigation">
         <ul class="rk-menu">
-          <li class="rk-menu__item">
+          <li routerLinkActive="active" class="rk-menu__item">
             <a routerLink="/" class="rk-menu__link">Home</a>
           </li>          
           <li routerLinkActive="active" class="rk-menu__item">
