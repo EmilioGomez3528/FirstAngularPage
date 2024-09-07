@@ -9,6 +9,7 @@ export class ProductosService {
 
   loading = true;
   products: Producto[] = [];
+  filterProducts: Producto[] = [];
 
 
   constructor( private http: HttpClient ) { 
@@ -20,10 +21,24 @@ export class ProductosService {
     this.http.get('https://angular-html-9172a-default-rtdb.firebaseio.com/productos_idx.json') 
         .subscribe( (resp: any) => {
 
-          console.log(resp);
           this.products = resp;
           this.loading = false;
 
     });
   }
+
+  getProducts (id: string) {
+    return this.http.get(`https://angular-html-9172a-default-rtdb.firebaseio.com/productos/${ id }.json`);
+  }
+
+
+  searchProduct(termino: string) {
+   this.filterProducts = this.products.filter( products => {
+      return true;
+    });
+
+    console.log(this.filterProducts);
+
+  }
+
 }
