@@ -18,13 +18,18 @@ export class ProductosService {
 
   private loadProducts() {
 
-    this.http.get('https://angular-html-9172a-default-rtdb.firebaseio.com/productos_idx.json') 
-        .subscribe( (resp: any) => {
+    return new Promise<void> ( (resolve, reject) => {
+      this.http.get('https://angular-html-9172a-default-rtdb.firebaseio.com/productos_idx.json') 
+      .subscribe( (resp: any) => {
 
-          this.products = resp;
-          this.loading = false;
+        this.products = resp;
+        this.loading = false;
+        resolve();
+  });
 
     });
+
+
   }
 
   getProducts (id: string) {
@@ -33,12 +38,38 @@ export class ProductosService {
 
 
   searchProduct(termino: string) {
-   this.filterProducts = this.products.filter( products => {
+  
+    if (this.products.length === 0) {
+      this.loadProducts().then( () => {
+        this.filtrarProductos(termino);
+      });
+    } else {
+      this.filtrarProductos(termino);
+    }
+  
+
+    this.filterProducts = this.products.filter( products => {
       return true;
     });
 
     console.log(this.filterProducts);
 
   }
+
+  private filtrarProductos(termino: string) {
+
+    this.filterProducts = [];
+    termino = termino.toLowerCase();
+
+    this.products.forEach(prod => {
+
+      const lowerTittle = prod.titulo.toLowerCase();
+      if(prod.categoria.indexOf(termino) >= 0 || lowerTittle.indexOf(termino)>= 0) {
+        this.filterProducts.push(prod);
+      }
+    });
+  }
+
+
 
 }
